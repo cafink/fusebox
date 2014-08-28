@@ -18,9 +18,9 @@ describe Fusebox::Request do
 
     # These are globals shared between the tests.
     # Is there a more appropriate way to share data between the specs?
-    @@spec_domain      ||= ActiveSupport::SecureRandom.hex(4) + '.example.com'
-    @@secondary_domain ||= ActiveSupport::SecureRandom.hex(4) + '.example.com'
-    @@forward          ||= ActiveSupport::SecureRandom.hex(4) + "@#{@@spec_domain}"
+    @@spec_domain      ||= SecureRandom.hex(4) + '.example.com'
+    @@secondary_domain ||= SecureRandom.hex(4) + '.example.com'
+    @@forward          ||= SecureRandom.hex(4) + "@#{@@spec_domain}"
     @@sleep_duration = 30 # How long the tests should sleep after the initial "order" to allow the data to propagate
   end
 
@@ -29,20 +29,20 @@ describe Fusebox::Request do
 
     describe "order" do
       it "should not be successful when adding existing account" do
-        @response = Fusebox::Request.new.order(:account_type => @fixtures['group_account_type'], :user => 'postmaster@mudbugmedia.com', :password => ActiveSupport::SecureRandom.hex)
+        @response = Fusebox::Request.new.order(:account_type => @fixtures['group_account_type'], :user => 'postmaster@mudbugmedia.com', :password => SecureRandom.hex)
         @response.detail.should match('already exists')
         @response.success?.should == false
       end
 
       it "should be successful when adding new group account" do
-        @response = Fusebox::Request.new.order(:account_type => @fixtures['group_account_type'], :user => "postmaster@#{@@spec_domain}", :password => ActiveSupport::SecureRandom.hex, :first_name => 'fusebox rspec sandbox', :last_name => '(delete me)')
+        @response = Fusebox::Request.new.order(:account_type => @fixtures['group_account_type'], :user => "postmaster@#{@@spec_domain}", :password => SecureRandom.hex, :first_name => 'fusebox rspec sandbox', :last_name => '(delete me)')
         @response.detail.should match('Order Created Succesfully')
         @response.success?.should == true
         sleep @@sleep_duration # Let fusemail catch up.. hopefully.
       end
 
       it "should be successful when adding group subaccounts" do
-        @response = Fusebox::Request.new.order(:account_type => 'group_subaccount', :group_parent => "postmaster@#{@@spec_domain}", :user => "user@#{@@spec_domain}", :password => ActiveSupport::SecureRandom.hex, :first_name => 'fusebox rspec sandbox', :last_name => '(delete me)')
+        @response = Fusebox::Request.new.order(:account_type => 'group_subaccount', :group_parent => "postmaster@#{@@spec_domain}", :user => "user@#{@@spec_domain}", :password => SecureRandom.hex, :first_name => 'fusebox rspec sandbox', :last_name => '(delete me)')
         @response.detail.should match('Order Created Succesfully')
         @response.success?.should == true
       end
@@ -82,7 +82,7 @@ describe Fusebox::Request do
       end
 
       it "should be successful for new domains" do
-        @response = Fusebox::Request.new.checkdomain(:domain => ActiveSupport::SecureRandom.hex(4) + '.example.com')
+        @response = Fusebox::Request.new.checkdomain(:domain => SecureRandom.hex(4) + '.example.com')
         @response.detail.should match('Domain is Available')
         @response.success?.should == true
       end
@@ -131,7 +131,7 @@ describe Fusebox::Request do
       end
 
       it "should be successful for new aliases" do
-        @response = Fusebox::Request.new.checkalias(:alias => ActiveSupport::SecureRandom.hex + "@#{@@spec_domain}")
+        @response = Fusebox::Request.new.checkalias(:alias => SecureRandom.hex + "@#{@@spec_domain}")
         @response.detail.should match('Alias is Available')
         @response.success?.should == true
       end
@@ -155,7 +155,7 @@ describe Fusebox::Request do
 
     describe "terminate" do
       it "should not be successful when purging non-existing accounts" do
-        @response = Fusebox::Request.new.terminate(:user => ActiveSupport::SecureRandom.hex + "@#{@@spec_domain}", :purge => true)
+        @response = Fusebox::Request.new.terminate(:user => SecureRandom.hex + "@#{@@spec_domain}", :purge => true)
         @response.detail.should match('Terminate account failed Could not find user')
         @response.success?.should == false
       end
