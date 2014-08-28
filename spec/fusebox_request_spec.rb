@@ -34,8 +34,8 @@ describe Fusebox::Request do
 
   describe 'post' do
     it "should" do
-      mocked_httpok = mock('Net::HTTPOK')
-      mocked_httpok.stub!(:body).and_return('1||Success')
+      mocked_httpok = double('Net::HTTPOK')
+      mocked_httpok.stub(:body).and_return('1||Success')
 
     end
   end
