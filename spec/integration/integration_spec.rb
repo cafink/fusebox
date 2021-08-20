@@ -1,4 +1,5 @@
 require 'spec_helper'
+# require 'keepass/password'
 
 # These specs run all the commands on your *live* Fusemail account.  Fusemail
 # unfortunately does not provide a "test mode" in its API, which makes these
@@ -22,20 +23,28 @@ describe Fusebox::Request do
 
     describe "order" do
       it "should not be successful when adding existing account" do
-        @response = Fusebox::Request.new.order(:account_type => @fixtures['group_account_type'], :user => 'postmaster@mudbugmedia.com', :password => SecureRandom.hex)
+        # require 'pry'
+        # binding.pry
+        VCR.use_cassette('order') do
+          @response = Fusebox::Request.new.order(:account_type => @fixtures['group_account_type'], :user => 'postmaster@mudbugmedia.com', :password => Fusebox::Password.new.generate, :first_name => 'fusebox rspec sandbox', :last_name => '(delete me)')
+        end
         @response.detail.should match('already exists')
         @response.success?.should == false
       end
 
       it "should be successful when adding new group account" do
-        @response = Fusebox::Request.new.order(:account_type => @fixtures['group_account_type'], :user => "postmaster@#{SPEC_DOMAIN}", :password => SecureRandom.hex, :first_name => 'fusebox rspec sandbox', :last_name => '(delete me)')
+        VCR.use_cassette('order') do
+          @response = Fusebox::Request.new.order(:account_type => @fixtures['group_account_type'], :user => "postmaster@#{SPEC_DOMAIN}", :password => Fusebox::Password.new.generate, :first_name => 'fusebox rspec sandbox', :last_name => '(delete me)')
+        end
         @response.detail.should match('Order Created Succesfully')
         @response.success?.should == true
         sleep SLEEP_DURATION # Let fusemail catch up.. hopefully.
       end
 
       it "should be successful when adding group subaccounts" do
-        @response = Fusebox::Request.new.order(:account_type => 'group_subaccount', :group_parent => "postmaster@#{SPEC_DOMAIN}", :user => "user@#{SPEC_DOMAIN}", :password => SecureRandom.hex, :first_name => 'fusebox rspec sandbox', :last_name => '(delete me)')
+        VCR.use_cassette('order') do
+          @response = Fusebox::Request.new.order(:account_type => 'group_subaccount', :group_parent => "postmaster@#{SPEC_DOMAIN}", :user => "user@#{SPEC_DOMAIN}", :password => Fusebox::Password.new.generate, :first_name => 'fusebox rspec sandbox', :last_name => '(delete me)')
+        end
         @response.detail.should match('Order Created Succesfully')
         @response.success?.should == true
       end

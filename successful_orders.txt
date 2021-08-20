@@ -1,0 +1,30 @@
+group acct:
+
+[1] pry(#<Fusebox::Request>)> post_vars
+=> {:account_type=>"standard",
+:user=>"postmaster@example.com",
+:password=>"ABCabc123!",
+:first_name=>"example.com",
+:last_name=>"postmaster",
+:maxdisk=>1000,
+:PlatformUser=>"mudbugm",
+:PlatformPassword=>"pIQe1_NucI7",
+:request=>"order"}
+[2] pry(#<Fusebox::Request>)> exit
+Success Order Created Succesfully OrderID: 2062101
+
+individual acct:
+
+[1] pry(#<Fusebox::Request>)> post_vars
+=> {:account_type=>"group_subaccount",
+:group_parent=>"postmaster@kokiri.org",
+:user=>"test@kokiri.org",
+:password=>"ABCabc123!",
+:first_name=>"test",
+:last_name=>"user",
+:maxdisk=>1000,
+:PlatformUser=>"mudbugm",
+:PlatformPassword=>"pIQe1_NucI7",
+:request=>"order"}
+[2] pry(#<Fusebox::Request>)> exit
+Success Order Created Succesfully OrderID: 2062089

@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://www.fusemail.com/api/request.html
+    body:
+      encoding: US-ASCII
+      string: account_type=standard&user=postmaster%40mudbugmedia.com&password=zT1z%3DHz6&first_name=fusebox+rspec+sandbox&last_name=%28delete+me%29&maxdisk=1000&PlatformUser=mudbugm&PlatformPassword=pIQe1_NucI7&request=order
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 25 Jun 2015 21:18:41 GMT
+      Server:
+      - Fusemail WEB server
+      Content-Type:
+      - text/plain
+      X-Powered-By:
+      - PHP/5.4.35-1~ppa1~precise
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: 520||New account failed The username you selected postmaster@mudbugmedia.com
+        already exists, please choose another
+    http_version: 
+  recorded_at: Thu, 25 Jun 2015 21:18:41 GMT
+recorded_with: VCR 2.9.3
